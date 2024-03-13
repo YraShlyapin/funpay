@@ -1,0 +1,25 @@
+import express from 'express'
+import cors from 'cors'
+
+import path from 'path'
+
+const __dirname = path.resolve()
+
+const port = process.env.PORT || 8080
+const host = process.env.HOST || 'localhost'
+
+const app = express()
+
+app.use(cors())
+app.use(express.static(path.resolve(__dirname, '..', 'client', 'build')))
+
+app.use((req, res) => res.sendFile(path.resolve(__dirname, '..', 'client', 'index.html')))
+
+app.listen(port, host, () => {
+    console.log(`server is start on http://${host}:${port}`)
+})
+
+process.on('SIGINT', () => {
+    console.log('server close now')
+    process.exit()
+})
